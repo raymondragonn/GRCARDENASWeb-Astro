@@ -1,0 +1,66 @@
+---
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const { title, description } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  name: 'GR Cárdenas Construcciones, S.A. de C.V.',
+  url: 'https://grcardenasconstrucciones.com',
+  telephone: '+52-229-186-3819',
+  email: 'contacto@grcardenasconstrucciones.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'José Martí 114, Int. 1, Col. Ejido Primero de Mayo Norte',
+    addressLocality: 'Boca del Río',
+    addressRegion: 'Veracruz',
+    postalCode: '94297',
+    addressCountry: 'MX',
+  },
+  department: [
+    {
+      '@type': 'GeneralContractor',
+      name: 'GR Cárdenas Construcciones — Bodega y patio La Tinaja',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Carr. Moralito–La Tinaja Km 62, Rancho San Felipe de Jesús',
+        addressLocality: 'La Tinaja',
+        addressRegion: 'Veracruz',
+        postalCode: '95118',
+        addressCountry: 'MX',
+      },
+    },
+  ],
+  sameAs: [
+    'https://www.facebook.com/people/GR-C%C3%A1rdenas-Construcciones/61560933210624/',
+    'https://www.instagram.com/gr.cardenas',
+    'https://wa.me/2291863819',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <Header client:load currentPath={Astro.url.pathname} />
+    <slot />
+    <Footer />
+  </body>
+</html>

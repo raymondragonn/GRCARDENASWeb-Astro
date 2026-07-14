@@ -1,0 +1,281 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import pilarSeguridad from '../assets/nosotros/nosotros-control-acceso-seguridad-01.jpg';
+import pilarSalud from '../assets/renta/especializados/capacitacion/capacitacion-01.jpg';
+import pilarAmbiente from '../assets/nosotros/nosotros-gestion-residuos-01.jpg';
+import pilarCalidad from '../assets/servicios/obra-mecanica/obra-mecanica-inspeccion-soldadura-01.jpg';
+import heroImg from '../assets/nosotros/nosotros-vehiculo-flotilla-01.jpg';
+
+const UBICACION = [
+  {
+    title: 'Cobertura nacional',
+    text: 'Presencia estratégica en todo el país desde nuestra base en Veracruz.',
+  },
+  {
+    title: 'Movilización inmediata',
+    text: 'Respuesta rápida y eficiente ante los requerimientos de obra.',
+  },
+  {
+    title: 'Control logístico',
+    text: 'Logística optimizada para el traslado de personal, equipos y materiales.',
+  },
+  {
+    title: 'Personal propio',
+    text: 'Cuadrillas técnicas y operativas propias con amplia trayectoria en campo.',
+  },
+  {
+    title: 'Flotilla propia',
+    text: 'Maquinaria pesada propia para carga, acarreo y maniobras en obra.',
+  },
+  {
+    title: 'Instalaciones propias',
+    text: 'Patio para mantenimiento y resguardo de equipos y unidades.',
+  },
+];
+
+const CAPITAL_HUMANO = [
+  'Personal calificado en obra civil, obra mecánica y proyectos industriales y energéticos',
+  'Constancias DC-5 vigentes y cumplimiento ante la STPS',
+  'Personal acreditado para la operación de maquinaria pesada',
+  'Aplicación permanente de estándares de SSPA',
+  'Cuadrillas especializadas, supervisión técnica y coordinación de obra',
+];
+
+const PILARES = [
+  {
+    title: 'Seguridad Industrial',
+    text: 'Programas y procedimientos seguros de trabajo; identificación, análisis y control de riesgos; auditorías internas y externas; mantenimiento preventivo y supervisión constante en campo y planta.',
+    img: pilarSeguridad,
+  },
+  {
+    title: 'Salud Ocupacional',
+    text: 'Vigilancia médica del personal; capacitación en seguridad, ergonomía y prevención; control de exposición a agentes físicos, químicos y ambientales; protocolos de emergencia y primeros auxilios.',
+    img: pilarSalud,
+  },
+  {
+    title: 'Medio Ambiente',
+    text: 'Cumplimiento de normativas ambientales del sector energético e industrial; manejo responsable de residuos; prevención de contaminación; uso eficiente de recursos y energía.',
+    img: pilarAmbiente,
+  },
+  {
+    title: 'Calidad y Cumplimiento',
+    text: 'Evaluación continua del desempeño; cumplimiento de normas del sector; supervisión y control de procedimientos técnicos y operativos; cultura organizacional de mejora continua.',
+    img: pilarCalidad,
+  },
+];
+---
+
+<Layout
+  title="Nosotros | GR Cárdenas Construcciones — Misión, visión y política SSPA"
+  description="Conoce a GR Cárdenas Construcciones: misión, visión, capital humano certificado (DC-5, STPS) y nuestra política de calidad y de Seguridad, Salud y Protección Ambiental (SSPA) para obra energética e industrial en Veracruz."
+>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow eyebrow--dark">La empresa</div>
+        <h1 class="h-display">Nosotros</h1>
+        <p class="lede">
+          Empresa mexicana especializada en construcción, obra civil, obra mecánica e
+          infraestructura energética, con experiencia comprobada en el sector público y
+          privado.
+        </p>
+        <Image src={heroImg} alt="Vehículo de la flotilla de GR Cárdenas Construcciones" width={1000} class="page-hero-img" />
+      </div>
+    </section>
+
+    {/* QUIÉNES SOMOS */}
+    <section class="container section-pad">
+      <div class="two-col">
+        <div class="sticky-col">
+          <div class="eyebrow">Quiénes somos</div>
+          <h2 class="h-section" style={{ fontSize: 'clamp(1.9rem,3.6vw,3rem)' }}>
+            Capacidad técnica y trayectoria en obra energética
+          </h2>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 22, fontSize: 'clamp(1.02rem,1.35vw,1.18rem)', lineHeight: 1.7, color: 'rgba(0,0,0,.78)' }}>
+          <p>
+            GR Cárdenas Construcciones, S.A. de C.V. es una empresa mexicana especializada en el
+            desarrollo de proyectos de construcción, obra civil, obra mecánica, infraestructura
+            industrial y energética, así como en la renta de maquinaria pesada.
+          </p>
+          <p>
+            Contamos con experiencia comprobada en la ejecución de proyectos para el sector
+            público y privado, operando bajo altos estándares de calidad, seguridad, salud
+            ocupacional y protección ambiental (SSPA).
+          </p>
+          <p>
+            Nuestra capacidad técnica y operativa nos permite desarrollar proyectos bajo
+            esquemas <strong>"llave en mano"</strong>, garantizando cumplimiento en tiempo,
+            costo y especificaciones.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* MISIÓN / VISIÓN */}
+    <section class="section mission-vision-grid">
+      <div class="mission-vision-panel mission-vision-panel--light">
+        <div class="eyebrow">Misión</div>
+        <p class="mission-vision-text" style={{ textTransform: 'none' }}>
+          Ejecutar obras de construcción e infraestructura con altos estándares de calidad,
+          seguridad y cumplimiento normativo, garantizando eficiencia y confiabilidad en cada
+          proyecto.
+        </p>
+      </div>
+      <div class="mission-vision-panel mission-vision-panel--dark">
+        <div class="eyebrow eyebrow--dark">Visión</div>
+        <p class="mission-vision-text">
+          Ser una empresa constructora reconocida a nivel nacional por su capacidad técnica,
+          cumplimiento y excelencia en la ejecución de obras.
+        </p>
+      </div>
+    </section>
+
+    {/* UBICACIÓN ESTRATÉGICA */}
+    <section class="container section-pad">
+      <div class="eyebrow">Ventaja operativa</div>
+      <h2 class="h-section-lg mt-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)' }}>
+        Ubicación estratégica
+      </h2>
+      <div class="grid-bordered">
+        {UBICACION.map((item) => (
+          <div class="grid-cell">
+            <div class="grid-cell-title" style={{ fontSize: '1.05rem' }}>
+              {item.title}
+            </div>
+            <p class="grid-cell-text">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* CAPITAL HUMANO */}
+    <section class="section--dark section">
+      <div class="container section-pad">
+        <div class="two-col">
+          <div>
+            <div class="eyebrow eyebrow--dark">Capital humano</div>
+            <h2 class="h-section-lg" style={{ fontSize: 'clamp(1.9rem,4vw,3.2rem)' }}>
+              Personal calificado y certificado
+            </h2>
+          </div>
+          <ul class="capital-list">
+            {CAPITAL_HUMANO.map((text, i) => (
+              <li>
+                <span>{String(i + 1).padStart(2, '0')}</span>
+                {text}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* POLÍTICAS */}
+    <section class="container section-pad">
+      <div class="eyebrow">Nuestro compromiso</div>
+      <h2 class="h-section-lg mt-lg" style={{ marginBottom: 'clamp(2.2rem,4vw,3.4rem)' }}>
+        Políticas de la empresa
+      </h2>
+      <div class="policy-grid">
+        <blockquote class="policy-quote">
+          <div class="policy-quote-label">Política de Calidad</div>
+          <span class="policy-quote-mark">&ldquo;</span>
+          <p class="policy-quote-text">
+            GR Cárdenas Construcciones, S.A. de C.V. tiene el compromiso y la responsabilidad de
+            satisfacer a nuestros clientes, suministrándoles los servicios en el mejor plazo y
+            con la calidad requerida.
+          </p>
+        </blockquote>
+        <blockquote class="policy-quote policy-quote--dark">
+          <div class="policy-quote-label" style={{ color: 'rgba(255,255,255,.8)' }}>
+            Política de Seguridad y Protección Ambiental (SSPA)
+          </div>
+          <span class="policy-quote-mark">&ldquo;</span>
+          <p class="policy-quote-text">
+            GR Cárdenas Construcciones, S.A. de C.V. ("GR") reconoce como su prioridad número uno
+            a la Seguridad y Salud de todas las personas que laboran en esta empresa, así como
+            al Medio Ambiente de las áreas de trabajo y del entorno que las rodea (SSPA).
+          </p>
+        </blockquote>
+      </div>
+    </section>
+
+    {/* 4 PILARES SSPA */}
+    <section class="container section-pad">
+      <div class="eyebrow">SSPA · Cuatro pilares</div>
+      <h2 class="h-section-lg mt-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', maxWidth: '22ch' }}>
+        Seguridad, salud, ambiente y calidad
+      </h2>
+      <div class="grid-bordered">
+        {PILARES.map((p, i) => (
+          <div class="grid-cell pilar-cell">
+            <Image src={p.img} alt="" width={800} class="pilar-img" aria-hidden="true" />
+            <div class="grid-cell-num">{String(i + 1).padStart(2, '0')}</div>
+            <div class="grid-cell-title">{p.title}</div>
+            <p class="grid-cell-text">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* CTA */}
+    <section class="section--dark section">
+      <div class="container section-pad-sm cta-banner">
+        <h2 class="cta-title">Trabajemos en tu próximo proyecto</h2>
+        <a href="/contacto" class="btn btn-light">
+          Contáctanos <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .pilar-cell {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.1s linear;
+  }
+  .pilar-cell > * {
+    position: relative;
+    z-index: 1;
+  }
+  .pilar-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    filter: brightness(0.4);
+    transition: opacity 0.15s linear;
+    pointer-events: none;
+  }
+  /* Efecto hover solo en escritorio real: con imagen de fondo oscurecida y texto en blanco */
+  @media (hover: hover) and (min-width: 768px) {
+    .pilar-cell:hover {
+      color: var(--white);
+    }
+    .pilar-cell:hover .pilar-img {
+      opacity: 1;
+    }
+    .pilar-cell:hover .grid-cell-text {
+      color: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  /* Táctil o pantalla chica: imagen como banner arriba y texto normal debajo, sin superposición */
+  @media (hover: none), (max-width: 767px) {
+    .pilar-cell .pilar-img {
+      position: static;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      opacity: 1;
+      filter: none;
+      margin-bottom: 16px;
+    }
+  }
+</style>

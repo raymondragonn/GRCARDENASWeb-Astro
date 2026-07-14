@@ -1,0 +1,31 @@
+---
+const { title = 'Preguntas frecuentes', items } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<section class="section container section-pad-sm">
+  <div class="eyebrow">Preguntas frecuentes</div>
+  <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)' }}>{title}</h2>
+  <div class="faq-list">
+    {items.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-question">{item.question}</summary>
+        <p class="faq-answer">{item.answer}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -1,0 +1,42 @@
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 0ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":" astro  v7.0.7 ready in 841 ms\n┃ Local    http://localhost:5173/\n┃ Network  use --host to expose","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 17ms","label":null,"level":"info"}
+{"message":"[200] /contacto 11ms","label":null,"level":"info"}
+{"message":"[200] /contacto 2ms","label":null,"level":"info"}
+{"message":"[Unhandled rejection] TypeError: Importing a module script failed.\n","label":"vite","level":"error"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] /contacto 12ms","label":null,"level":"info"}
+{"message":"[200] /contacto 1ms","label":null,"level":"info"}
+{"message":"[200] /contacto 5ms","label":null,"level":"info"}
+{"message":"[200] / 14ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 11ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 10ms","label":null,"level":"info"}
+{"message":"[200] /servicios 11ms","label":null,"level":"info"}
+{"message":"[404] /ajustes 25ms","label":null,"level":"info"}
+{"message":"[404] /ajustes 6ms","label":null,"level":"info"}
+{"message":"[200] /servicios 15ms","label":null,"level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"[200] /servicios 23ms","label":null,"level":"info"}
+{"message":"[Unhandled rejection] TypeError: Importing a module script failed.\n","label":"vite","level":"error"}
+{"message":"[200] /servicios 3ms","label":null,"level":"info"}
+{"message":"[200] /servicios 14ms","label":null,"level":"info"}
+{"message":"[200] /servicios 2ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] /servicios 14ms","label":null,"level":"info"}
+{"message":"[200] /nosotros 8ms","label":null,"level":"info"}
+{"message":"[200] /experiencia 8ms","label":null,"level":"info"}
+{"message":"[200] /practicas 8ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 55ms","label":null,"level":"info"}

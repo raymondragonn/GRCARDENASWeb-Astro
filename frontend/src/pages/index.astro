@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import brandPhoto from '../assets/servicios/obra-mecanica/obra-mecanica-zanja-tuberia-27.jpg';
+import actionPhoto from '../assets/servicios/obra-mecanica/obra-mecanica-soldadura-24.jpg';
+import scalePhoto from '../assets/experiencia/experiencia-vista-aerea-instalacion-04.jpg';
+import svcCivil from '../assets/servicios/obra-civil/obra-civil-cimentacion-concreto-01.jpg';
+import svcMecanica from '../assets/servicios/obra-mecanica/obra-mecanica-linea-conduccion-01.jpg';
+import svcMetalica from '../assets/servicios/infra-metalica/infra-metalica-cercado-perimetral-01.jpg';
+import svcElectrica from '../assets/servicios/obra-mecanica/obra-mecanica-instrumentacion-01.jpg';
+import svcAnticorrosiva from '../assets/servicios/anticorrosiva/anticorrosiva-sandblast-01.jpg';
+import svcIngenieria from '../assets/experiencia/experiencia-vista-aerea-instalacion-01.jpg';
+import svcRenta from '../assets/renta/renta-fletes-transporte-maquinaria-01.jpg';
+
+const HERO_PHOTOS = [
+  { src: brandPhoto, alt: 'Personal de GR Cárdenas Construcciones instalando cimbra de madera' },
+  { src: actionPhoto, alt: 'Cuadrilla de soldadura certificada trabajando en tubería industrial' },
+  { src: scalePhoto, alt: 'Vista aérea de instalación energética con quemador en operación' },
+];
+
+const SERVICES = [
+  {
+    num: '01',
+    title: ['Obra Civil'],
+    text: 'Terracerías, cimentaciones, pavimentos, urbanización y acabados industriales.',
+    to: '/servicios#obra-civil',
+    img: svcCivil,
+  },
+  {
+    num: '02',
+    title: ['Obra Mecánica', 'e Industrial'],
+    text: 'Líneas de hidrocarburos, amarres a pozos, soldadura certificada y recipientes a presión.',
+    to: '/servicios#obra-mecanica',
+    img: svcMecanica,
+  },
+  {
+    num: '03',
+    title: ['Infraestructura', 'Metálica'],
+    text: 'Herrería, cercados, barandales, rejillas industriales y guardaganados.',
+    to: '/servicios#infra-metalica',
+    img: svcMetalica,
+  },
+  {
+    num: '04',
+    title: ['Obra Eléctrica'],
+    text: 'Electrificación en alta, media y baja tensión e instalaciones industriales.',
+    to: '/servicios#obra-electrica',
+    img: svcElectrica,
+  },
+  {
+    num: '05',
+    title: ['Protección', 'Anticorrosiva'],
+    text: 'Sandblast, recubrimientos industriales y protección catódica.',
+    to: '/servicios#anticorrosiva',
+    img: svcAnticorrosiva,
+  },
+  {
+    num: '06',
+    title: ['Ingeniería', 'y Proyectos'],
+    text: 'Bodegas, estructuras metálicas, cobertizos y montajes a gran altura.',
+    to: '/servicios#ingenieria',
+    img: svcIngenieria,
+  },
+  {
+    num: '+',
+    title: ['Renta y Servicios Especializados'],
+    text: 'Maquinaria pesada, sandblast, fletes, pruebas hidrostáticas y capacitación DC-5.',
+    to: '/renta',
+    img: svcRenta,
+    inverted: true,
+  },
+];
+---
+
+<Layout
+  title="GR CARDENAS CONSTRUCCIONES"
+  description="Constructora en Boca del Río, Veracruz especializada en obra civil, obra mecánica e infraestructura energética. Proyectos llave en mano para PEMEX, CFE y sector privado con más de 30 años de experiencia."
+>
+  <main id="main">
+    {/* 1 · HERO */}
+    <section aria-label="Portada" class="hero-section" data-hero-hover tabindex="0">
+      <div class="hero-bg" aria-hidden="true">
+        {HERO_PHOTOS.map((p, i) => (
+          <div class={`hero-bg-item hero-bg-item--${i + 1}`}>
+            <Image src={p.src} alt={p.alt} width={1600} height={1000} loading="eager" />
+          </div>
+        ))}
+      </div>
+      <div class="hero-inner">
+        <div class="hero-location">Boca del Río, Veracruz · Cobertura nacional</div>
+        <h1 class="hero-title">Construcción e infraestructura energética</h1>
+        <p class="lede">
+          Proyectos llave en mano en construcción, obra mecánica y renta de maquinaria pesada.
+          Más de 30 años ejecutando obra para PEMEX, CFE y el sector privado.
+        </p>
+        <div class="hero-actions">
+          <a href="/contacto" class="btn btn-light">
+            Contáctanos
+          </a>
+          <a href="/servicios" class="btn btn-outline-light">
+            Conoce nuestros servicios
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const hero = document.querySelector('[data-hero-hover]');
+      if (hero) {
+        const items = Array.from(hero.querySelectorAll('.hero-bg-item'));
+        let index = 0;
+        let timer: ReturnType<typeof setInterval> | null = null;
+
+        function show(i: number) {
+          items.forEach((el, n) => el.classList.toggle('is-visible', n === i));
+        }
+
+        function start() {
+          index = 0;
+          show(index);
+          timer = window.setInterval(() => {
+            index = (index + 1) % items.length;
+            show(index);
+          }, 4500);
+        }
+
+        function stop() {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+          items.forEach((el) => el.classList.remove('is-visible'));
+        }
+
+        hero.addEventListener('mouseenter', start);
+        hero.addEventListener('mouseleave', stop);
+        hero.addEventListener('focusin', start);
+        hero.addEventListener('focusout', (e) => {
+          if (!hero.contains(e.relatedTarget as Node)) stop();
+        });
+      }
+    </script>
+
+    {/* stat strip */}
+    <section aria-label="Cifras" class="section--dark section">
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="stat-num">+30</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">+39</div>
+          <div class="stat-label">Proyectos ejecutados</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">1995</div>
+          <div class="stat-label">Operando desde</div>
+        </div>
+        <div class="stat-cell" style={{ borderRight: 'none' }}>
+          <div class="stat-num">
+            PEMEX<span style={{ fontSize: '.4em', verticalAlign: 'middle' }}> / </span>CFE
+          </div>
+          <div class="stat-label">Clientes principales</div>
+        </div>
+      </div>
+    </section>
+
+    {/* 2 · QUIÉNES SOMOS */}
+    <section aria-label="Quiénes somos" class="container section-pad">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow">01 — Quiénes somos</div>
+          <h2 class="h-section-lg">Una constructora mexicana consolidada</h2>
+          <p class="lede text-muted" style={{ maxWidth: '48ch' }}>
+            GR Cárdenas Construcciones, S.A. de C.V. desarrolla proyectos de construcción, obra
+            civil, obra mecánica e infraestructura industrial y energética, además de la renta
+            de maquinaria pesada. Ejecutamos obra para el sector público y privado bajo esquemas{' '}
+            <strong>llave en mano</strong>, garantizando cumplimiento en tiempo, costo y
+            especificaciones.
+          </p>
+          <a href="/nosotros" class="link-underline mt-lg" style={{ display: 'inline-flex' }}>
+            Conócenos <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div style={{ border: '2px solid #000' }}>
+          <div class="grid-cell" style={{ borderRight: 0 }}>
+            <div class="grid-cell-title" style={{ fontSize: '1.02rem' }}>
+              Proyectos llave en mano
+            </div>
+            <p class="grid-cell-text">
+              Del diseño a la entrega, con responsabilidad integral del proyecto.
+            </p>
+          </div>
+          <div class="grid-cell" style={{ borderRight: 0 }}>
+            <div class="grid-cell-title" style={{ fontSize: '1.02rem' }}>
+              Estándares SSPA
+            </div>
+            <p class="grid-cell-text">
+              Seguridad, salud ocupacional y protección ambiental en cada obra.
+            </p>
+          </div>
+          <div class="grid-cell" style={{ borderRight: 0 }}>
+            <div class="grid-cell-title" style={{ fontSize: '1.02rem' }}>
+              Flotilla propia
+            </div>
+            <p class="grid-cell-text">
+              Maquinaria pesada, personal técnico y capacidad de movilización inmediata.
+            </p>
+          </div>
+          <div class="grid-cell" style={{ borderRight: 0, borderBottom: 0 }}>
+            <div class="grid-cell-title" style={{ fontSize: '1.02rem' }}>
+              Cobertura nacional
+            </div>
+            <p class="grid-cell-text">Base en Veracruz con respuesta en el sureste y todo el país.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* 3 · SERVICIOS DESTACADOS */}
+    <section aria-label="Servicios" class="section">
+      <div class="container" style={{ paddingTop: 'clamp(3.5rem,8vw,7rem)' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            gap: 20,
+            marginBottom: 'clamp(2rem,4vw,3.2rem)',
+          }}
+        >
+          <div>
+            <div class="eyebrow">02 — Qué hacemos</div>
+            <h2 class="h-section-lg">Servicios</h2>
+          </div>
+          <a href="/servicios" class="btn btn-outline-dark btn-sm">
+            Ver todos
+          </a>
+        </div>
+      </div>
+      <div class="services-grid">
+        {SERVICES.map((s) => (
+          <a href={s.to} class={`service-card${s.inverted ? ' is-inverted' : ''}`}>
+            <Image src={s.img} alt="" width={800} class="service-card-img" aria-hidden="true" />
+            <span class="service-card-num">{s.num}</span>
+            <span class="service-card-title">
+              {s.title.map((line, i) => (
+                <Fragment>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))}
+            </span>
+            <span class="service-card-text">{s.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* 4 · EXPERIENCIA / POR QUÉ ELEGIRNOS */}
+    <section aria-label="Por qué elegirnos" class="section--dark">
+      <div class="container section-pad">
+        <div class="eyebrow eyebrow--dark">03 — Por qué elegirnos</div>
+        <h2
+          class="h-section-lg mt-lg"
+          style={{ marginBottom: 'clamp(2rem,4vw,3.2rem)', fontSize: 'clamp(2rem,5vw,4.2rem)', maxWidth: '20ch' }}
+        >
+          Experiencia comprobada en obra energética e industrial
+        </h2>
+        <div class="grid-bordered grid-bordered--dark">
+          <div class="grid-cell">
+            <div class="grid-cell-title" style={{ fontSize: '1.15rem' }}>
+              Cumplimiento comprobado
+            </div>
+            <p class="grid-cell-text">
+              39 contratos documentados desde 1995 para PEMEX, CFE y contratistas EPC del sector
+              energético.
+            </p>
+          </div>
+          <div class="grid-cell">
+            <div class="grid-cell-title" style={{ fontSize: '1.15rem' }}>
+              Estándares SSPA
+            </div>
+            <p class="grid-cell-text">
+              Seguridad industrial, salud ocupacional, protección ambiental y control de calidad
+              en toda la operación.
+            </p>
+          </div>
+          <div class="grid-cell">
+            <div class="grid-cell-title" style={{ fontSize: '1.15rem' }}>
+              Tiempo, costo y especificación
+            </div>
+            <p class="grid-cell-text">
+              Personal certificado DC-5, acreditación STPS y cuadrillas especializadas con
+              trayectoria en campo.
+            </p>
+          </div>
+        </div>
+        <a href="/experiencia" class="btn btn-light mt-lg">
+          Ver experiencia y clientes <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    {/* 5 · CTA CONTACTO */}
+    <section aria-label="Contacto" class="section">
+      <div class="container section-pad two-col" style={{ alignItems: 'center' }}>
+        <div>
+          <div class="eyebrow">04 — Hablemos</div>
+          <h2 class="h-section-lg" style={{ lineHeight: 0.98, fontSize: 'clamp(2.2rem,5.5vw,4.6rem)' }}>
+            ¿Tienes un
+            <br />
+            proyecto?
+          </h2>
+          <p class="lede text-muted" style={{ maxWidth: '44ch' }}>
+            Cuéntanos sobre tu obra y te respondemos con la mejor propuesta técnica y de tiempos.
+          </p>
+        </div>
+        <div class="cta-tile-group">
+          <a
+            href="https://wa.me/2291863819?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n."
+            target="_blank"
+            rel="noopener"
+            class="cta-tile"
+          >
+            <span>
+              <span class="cta-tile-label">Respuesta inmediata</span>
+              <span class="cta-tile-title">Escríbenos por WhatsApp</span>
+            </span>
+            <span class="cta-tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="/contacto" class="cta-tile cta-tile--outline">
+            <span>
+              <span class="cta-tile-label">Propuesta técnica y de tiempos</span>
+              <span class="cta-tile-title">Formulario de contacto</span>
+            </span>
+            <span class="cta-tile-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

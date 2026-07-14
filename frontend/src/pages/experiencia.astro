@@ -1,0 +1,418 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Gallery from '../components/Gallery.astro';
+import { getImage, Image } from 'astro:assets';
+import heroImg from '../assets/experiencia/experiencia-vista-aerea-instalacion-01.jpg';
+import { captionFromFilename, sortByFilename } from '../utils/gallery';
+
+const experienciaPhotoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/experiencia/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+const experienciaEntries = sortByFilename(
+  Object.entries(experienciaPhotoModules).map(([path, mod]) => ({ path, mod }))
+);
+
+const EXPERIENCIA_GALLERY = await Promise.all(
+  experienciaEntries.map(async ({ path, mod }) => {
+    const filename = path.split('/').pop() ?? '';
+    const optimized = await getImage({ src: mod.default, width: 1600, format: 'webp', quality: 78 });
+    return {
+      src: optimized.src,
+      width: optimized.attributes.width as number,
+      height: optimized.attributes.height as number,
+      caption: captionFromFilename(filename, 'experiencia'),
+    };
+  })
+);
+
+const CLIENTES = [
+  { name: 'PEMEX', sub: 'Exploración y Producción', size: 'lg' },
+  { name: 'CFE', sub: 'Comisión Federal de Electricidad', size: 'lg' },
+  { name: 'Denion México', size: 'md' },
+  { name: 'Servicios PJP4', size: 'md' },
+  { name: 'Consorcio Sigma Sarreal', size: 'md' },
+  { name: 'COPAVISA', size: 'md' },
+  { name: 'Consorcio Sarreal-Mexxus', size: 'md' },
+  { name: 'Y otras empresas del sector energético e industrial', size: 'sm' },
+];
+
+const PROYECTOS = [
+  {
+    title: 'Campo Ixachi',
+    text: 'Infraestructura de recolección y conducción: amarres de pozos, líneas de descarga y baterías de separación.',
+    // Fotos con rótulo verificado "PERDIZ 39-OGD IXACHI" visible en la tubería, más amarres de pozo y línea de conducción representativos.
+    photoFiles: [
+      'obra-mecanica/obra-mecanica-linea-conduccion-11.jpg',
+      'obra-mecanica/obra-mecanica-bateria-separacion-01.jpg',
+      'obra-mecanica/obra-mecanica-amarre-pozo-01.jpg',
+      'obra-mecanica/obra-mecanica-amarre-pozo-02.jpg',
+      'obra-mecanica/obra-mecanica-linea-conduccion-01.jpg',
+    ],
+  },
+  {
+    title: 'Campo Perdiz',
+    text: 'Obra mecánica y civil para infraestructura de producción, con estándares SSPA en campo.',
+    // Rótulo verificado "CABEZAL DE PRODUCCIÓN MP PERDIZ 39" visible en la tubería de esta serie completa.
+    photoFiles: [
+      'obra-mecanica/obra-mecanica-cabezal-pozo-16.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-17.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-18.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-19.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-20.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-21.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-22.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-23.jpg',
+      'obra-mecanica/obra-mecanica-cabezal-pozo-24.jpg',
+    ],
+  },
+  {
+    title: 'Gasoducto a Matapionche',
+    text: 'Gasoducto de 20"Ø × 52 km hacia el C.P.G. Matapionche, con soldadura certificada y pruebas hidrostáticas.',
+    // Sin rótulo de proyecto visible: fotos representativas de soldadura certificada del acervo general.
+    photoFiles: [
+      'obra-mecanica/obra-mecanica-soldadura-01.jpg',
+      'obra-mecanica/obra-mecanica-soldadura-02.jpg',
+      'obra-mecanica/obra-mecanica-soldadura-03.jpg',
+      'obra-mecanica/obra-mecanica-soldadura-04.jpg',
+      'obra-mecanica/obra-mecanica-soldadura-05.jpg',
+    ],
+  },
+  {
+    title: 'Oleogasoductos 16"–30"Ø',
+    text: 'Construcción de oleogasoductos de gran diámetro y rehabilitación de corredores de ductos.',
+    // Sin rótulo de proyecto visible: fotos representativas de zanja y tendido de tubería del acervo general.
+    photoFiles: [
+      'obra-mecanica/obra-mecanica-zanja-tuberia-01.jpg',
+      'obra-mecanica/obra-mecanica-zanja-tuberia-02.jpg',
+      'obra-mecanica/obra-mecanica-zanja-tuberia-03.jpg',
+      'obra-mecanica/obra-mecanica-tendido-tuberia-01.jpg',
+      'obra-mecanica/obra-mecanica-tendido-tuberia-02.jpg',
+      'obra-mecanica/obra-mecanica-tendido-tuberia-03.jpg',
+    ],
+  },
+  {
+    title: 'Trampas de diablos y baterías',
+    text: 'Sistemas de limpieza e inspección de ductos (pigging) y baterías de separación.',
+    // Sin rótulo de proyecto visible: fotos representativas de colectores/manifolds del acervo general.
+    photoFiles: [
+      'obra-mecanica/obra-mecanica-colector-01.jpg',
+      'obra-mecanica/obra-mecanica-colector-02.jpg',
+      'obra-mecanica/obra-mecanica-colector-03.jpg',
+      'obra-mecanica/obra-mecanica-colector-04.jpg',
+    ],
+  },
+  {
+    title: 'Rehabilitación de corredores de ductos',
+    text: 'Mantenimiento y rehabilitación de corredores, con protección anticorrosiva y soportería.',
+    // Sin rótulo de proyecto visible: fotos representativas de sandblast y recubrimiento del acervo general.
+    photoFiles: [
+      'anticorrosiva/anticorrosiva-sandblast-01.jpg',
+      'anticorrosiva/anticorrosiva-sandblast-02.jpg',
+      'anticorrosiva/anticorrosiva-sandblast-03.jpg',
+      'anticorrosiva/anticorrosiva-recubrimiento-01.jpg',
+      'anticorrosiva/anticorrosiva-recubrimiento-02.jpg',
+    ],
+  },
+];
+
+// Una foto no debe aparecer en más de un proyecto destacado.
+const seenPhotos = new Set<string>();
+for (const p of PROYECTOS) {
+  for (const f of p.photoFiles) {
+    if (seenPhotos.has(f)) throw new Error(`Foto repetida en proyectos destacados: ${f}`);
+    seenPhotos.add(f);
+  }
+}
+
+const allServicePhotoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/servicios/*/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+async function buildProjectGallery(photoFiles: string[]) {
+  return Promise.all(
+    photoFiles.map(async (photoFile) => {
+      const entry = Object.entries(allServicePhotoModules).find(([path]) => path.endsWith(`/servicios/${photoFile}`));
+      if (!entry) throw new Error(`No se encontró la foto ${photoFile} para la galería de proyectos destacados`);
+      const [path, mod] = entry;
+      const filename = path.split('/').pop() ?? '';
+      const categoryPrefix = photoFile.split('/')[0];
+      const optimized = await getImage({ src: mod.default, width: 1200, format: 'webp', quality: 78 });
+      return {
+        src: optimized.src,
+        width: optimized.attributes.width as number,
+        height: optimized.attributes.height as number,
+        caption: captionFromFilename(filename, categoryPrefix),
+      };
+    })
+  );
+}
+
+const PROJECT_GALLERIES = await Promise.all(PROYECTOS.map((p) => buildProjectGallery(p.photoFiles)));
+
+const TIPOS_PROYECTO = ['Construcción', 'Mantenimiento', 'Ampliaciones', 'Infraestructura especializada'];
+---
+
+<Layout
+  title="Experiencia y clientes | GR Cárdenas Construcciones — PEMEX y CFE"
+  description="Más de 30 años y 39 contratos ejecutados desde 1995 para PEMEX, CFE y el sector privado: oleogasoductos, líneas de descarga, baterías de separación y proyectos recientes en los campos Ixachi y Perdiz."
+>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow eyebrow--dark">Trayectoria comprobada</div>
+        <h1 class="h-display">
+          Experiencia
+          <br />y clientes
+        </h1>
+        <p class="lede">
+          Desde 1995 ejecutando construcción, mantenimiento, ampliaciones e infraestructura
+          especializada para el sector energético e industrial del país.
+        </p>
+        <Image src={heroImg} alt="Vista aérea de instalación energética construida por GR Cárdenas" width={1000} class="page-hero-img" />
+      </div>
+    </section>
+
+    {/* STATS */}
+    <section class="section">
+      <div class="stat-grid" style={{ borderColor: '#000' }}>
+        <div class="stat-cell stat-cell--light">
+          <div class="stat-num stat-num--lg">+30</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-cell stat-cell--light">
+          <div class="stat-num stat-num--lg">+39</div>
+          <div class="stat-label">Contratos ejecutados</div>
+        </div>
+        <div class="stat-cell stat-cell--light">
+          <div class="stat-num stat-num--lg">1995</div>
+          <div class="stat-label">Primer contrato</div>
+        </div>
+        <div class="stat-cell stat-cell--light" style={{ borderRight: 'none' }}>
+          <div class="stat-num stat-num--lg">
+            52<span style={{ fontSize: '.4em', verticalAlign: 'top' }}>km</span>
+          </div>
+          <div class="stat-label">Gasoducto 20"Ø a Matapionche</div>
+        </div>
+      </div>
+    </section>
+
+    {/* PROYECTOS DESTACADOS */}
+    <section class="section container section-pad">
+      <div class="eyebrow">Obras realizadas</div>
+      <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)' }}>
+        Proyectos destacados
+      </h2>
+      <div class="projects-grid">
+        {PROYECTOS.map((p, i) => (
+          <article
+            class="project-card"
+            data-project-open={String(i)}
+            tabindex="0"
+            role="button"
+            aria-haspopup="dialog"
+            aria-label={`Ver galería de ${p.title}`}
+            style={{ cursor: 'pointer' }}
+          >
+            <div style={{ borderBottom: '2px solid #000' }}>
+              <Gallery images={PROJECT_GALLERIES[i]} aspectRatio="16/10" bordered={false} minimal arrows={false} />
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-title">{p.title}</div>
+              <p class="project-card-text">{p.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {PROYECTOS.map((p, i) => (
+        <dialog class="project-modal" data-project-modal={String(i)} aria-label={p.title}>
+          <button type="button" class="project-modal-close" data-modal-close aria-label="Cerrar">×</button>
+          <div class="project-modal-grid">
+            <div class="project-modal-media">
+              <Gallery images={PROJECT_GALLERIES[i]} aspectRatio="16/10" bordered={false} minimal />
+            </div>
+            <div class="project-modal-info">
+              <div class="eyebrow">Proyecto destacado</div>
+              <h3 class="project-modal-title">{p.title}</h3>
+              <p class="project-modal-text">{p.text}</p>
+            </div>
+          </div>
+        </dialog>
+      ))}
+      <p class="text-muted" style={{ margin: 'clamp(1.8rem,3vw,2.4rem) 0 0', fontSize: '.9rem', color: 'rgba(0,0,0,.5)', maxWidth: '70ch' }}>
+        Selección representativa de un historial de 39 contratos documentados (1995–2025).
+        Campo Perdiz y Campo Ixachi muestran fotografías con el rotulado de proyecto visible en
+        la tubería; el resto son fotografías representativas del tipo de trabajo descrito.
+      </p>
+    </section>
+
+    {/* TIPOS DE PROYECTO */}
+    <section class="section section--dark">
+      <div class="container section-pad-sm" style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+        <span style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', letterSpacing: '.14em', fontSize: '.8rem', color: 'rgba(255,255,255,.55)', marginRight: 10 }}>
+          Tipos de proyecto
+        </span>
+        {TIPOS_PROYECTO.map((t) => (
+          <span class="tipo-tag">{t}</span>
+        ))}
+      </div>
+    </section>
+
+    {/* CLIENTES */}
+    <section class="section container section-pad">
+      <div class="eyebrow">Nuestros clientes</div>
+      <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', maxWidth: '24ch' }}>
+        Confianza del sector público y privado
+      </h2>
+      <div class="grid-bordered clients-grid">
+        {CLIENTES.map((c) => (
+          <div class="client-cell">
+            {c.size === 'lg' && (
+              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.02em', fontSize: 'clamp(1.2rem,2vw,1.6rem)', lineHeight: 1.05 }}>
+                {c.name}
+                <br />
+                <span style={{ fontSize: '.55em', fontWeight: 500, color: 'rgba(0,0,0,.55)', letterSpacing: '.06em' }}>{c.sub}</span>
+              </span>
+            )}
+            {c.size === 'md' && (
+              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.02em', fontSize: 'clamp(1.05rem,1.7vw,1.35rem)', lineHeight: 1.1 }}>
+                {c.name}
+              </span>
+            )}
+            {c.size === 'sm' && (
+              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '.06em', fontSize: '.9rem', lineHeight: 1.3, color: 'rgba(0,0,0,.55)' }}>
+                {c.name}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* GALERÍA DE INSTALACIONES */}
+    {EXPERIENCIA_GALLERY.length > 0 && (
+      <section class="section container section-pad">
+        <div class="eyebrow">Vista de campo</div>
+        <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', maxWidth: '28ch' }}>
+          Instalaciones en operación
+        </h2>
+        <Gallery images={EXPERIENCIA_GALLERY} aspectRatio="16/9" minimal arrows={false} />
+      </section>
+    )}
+
+    {/* CTA */}
+    <section class="section section--dark">
+      <div class="container section-pad-sm cta-banner">
+        <h2 class="cta-title">Sumemos tu proyecto a esta trayectoria</h2>
+        <a href="/contacto" class="btn btn-light">
+          Contáctanos <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .project-modal {
+    border: 2px solid var(--black);
+    padding: 0;
+    width: min(1100px, 94vw);
+    max-height: 90vh;
+  }
+  .project-modal::backdrop {
+    background: rgba(0, 0, 0, 0.65);
+  }
+  .project-modal-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+  }
+  @media (max-width: 800px) {
+    .project-modal-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .project-modal-media {
+    border-right: 2px solid var(--black);
+  }
+  @media (max-width: 800px) {
+    .project-modal-media {
+      border-right: 0;
+      border-bottom: 2px solid var(--black);
+    }
+  }
+  .project-modal-info {
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .project-modal-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    line-height: 1.1;
+    margin: 0.6rem 0 0.8rem;
+  }
+  .project-modal-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0;
+  }
+  .project-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.1s linear;
+  }
+  .project-modal-close:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+</style>
+
+<script>
+  function initProjectModals() {
+    document.querySelectorAll<HTMLElement>('[data-project-open]').forEach((card) => {
+      if (card.dataset.modalInit === 'true') return;
+      card.dataset.modalInit = 'true';
+
+      const dialog = document.querySelector<HTMLDialogElement>(
+        `[data-project-modal="${card.dataset.projectOpen}"]`
+      );
+      if (!dialog) return;
+
+      const open = () => dialog.showModal();
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open();
+        }
+      });
+
+      dialog.querySelector('[data-modal-close]')?.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initProjectModals);
+  initProjectModals();
+</script>

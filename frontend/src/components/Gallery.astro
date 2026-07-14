@@ -1,0 +1,331 @@
+---
+export interface GalleryImage {
+  src: string;
+  width: number;
+  height: number;
+  caption: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+  dark?: boolean;
+  aspectRatio?: string;
+  intervalMs?: number;
+  bordered?: boolean;
+  minimal?: boolean;
+  arrows?: boolean;
+}
+
+const { images, dark = false, aspectRatio = '4/3', intervalMs = 5000, bordered = true, minimal = false, arrows = true } = Astro.props;
+const first = images[0];
+const payload = JSON.stringify(images).replace(/</g, '\\u003c');
+---
+
+{first && (
+  <div
+    class={`gallery${dark ? ' gallery--dark' : ''}${bordered ? '' : ' gallery--borderless'}`}
+    style={{ aspectRatio }}
+    data-gallery
+    data-interval={intervalMs}
+  >
+    <img
+      class="gallery-img"
+      src={first.src}
+      width={first.width}
+      height={first.height}
+      alt={first.caption}
+      data-gallery-img
+    />
+    {images.length > 1 && (
+      <img
+        class="gallery-img is-hidden"
+        src={first.src}
+        width={first.width}
+        height={first.height}
+        alt=""
+        aria-hidden="true"
+        data-gallery-img-b
+      />
+    )}
+
+    {arrows && images.length > 1 && (
+      <>
+        <button type="button" class="gallery-arrow gallery-arrow--prev" data-gallery-prev aria-label="Foto anterior">‹</button>
+        <button type="button" class="gallery-arrow gallery-arrow--next" data-gallery-next aria-label="Foto siguiente">›</button>
+      </>
+    )}
+
+    {!minimal && (
+      <div class="gallery-tag">
+        <span data-gallery-caption-text>{first.caption}</span>
+        {images.length > 1 && (
+          <span class="gallery-counter" data-gallery-counter>{`1 / ${images.length}`}</span>
+        )}
+      </div>
+    )}
+
+    {!minimal && images.length > 1 && (
+      <div class="gallery-progress" aria-hidden="true">
+        <div class="gallery-progress-bar" data-gallery-progress></div>
+      </div>
+    )}
+
+    {images.length > 1 && (
+      <script type="application/json" data-gallery-data set:html={payload} />
+    )}
+  </div>
+)}
+
+<style>
+  .gallery {
+    position: relative;
+    border: 2px solid var(--black);
+    overflow: hidden;
+    background: #111;
+  }
+
+  .gallery--dark {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .gallery--borderless {
+    border: 0;
+  }
+
+  .gallery-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 1;
+    transition: opacity 0.7s ease;
+  }
+
+  .gallery-img.is-hidden {
+    opacity: 0;
+  }
+
+  .gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    z-index: 2;
+    padding: 0;
+  }
+  .gallery-arrow:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+  .gallery-arrow--prev {
+    left: 12px;
+  }
+  .gallery-arrow--next {
+    right: 12px;
+  }
+
+  .gallery-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+    max-width: calc(100% - 24px);
+  }
+  .gallery-tag span {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.64rem;
+    background: var(--white);
+    color: #555;
+    border: 1px solid var(--black);
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+  .gallery-tag span[data-gallery-caption-text] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .gallery-counter {
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .gallery-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 2;
+  }
+  .gallery-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--white);
+  }
+  .gallery-progress-bar.is-animating {
+    transition-property: width;
+    transition-timing-function: linear;
+  }
+</style>
+
+<script>
+  function initGalleries() {
+    const galleries = document.querySelectorAll('[data-gallery]');
+
+    galleries.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      if (el.dataset.galleryInit === 'true') return;
+
+      const dataEl = el.querySelector('script[data-gallery-data]');
+      if (!dataEl) return;
+
+      let images = [];
+      try {
+        images = JSON.parse(dataEl.textContent || '[]');
+      } catch {
+        return;
+      }
+      if (!Array.isArray(images) || images.length < 2) return;
+
+      el.dataset.galleryInit = 'true';
+
+      const imgs = [el.querySelector('[data-gallery-img]'), el.querySelector('[data-gallery-img-b]')];
+      const captionText = el.querySelector('[data-gallery-caption-text]');
+      const counter = el.querySelector('[data-gallery-counter]');
+      const progressBar = el.querySelector('[data-gallery-progress]');
+      const prevBtn = el.querySelector('[data-gallery-prev]');
+      const nextBtn = el.querySelector('[data-gallery-next]');
+      const intervalMs = Number(el.dataset.interval) || 5000;
+
+      let active = 0;
+      let index = 0;
+      let timer = null;
+      let paused = false;
+
+      function restartProgress() {
+        if (!progressBar) return;
+        progressBar.classList.remove('is-animating');
+        progressBar.style.transitionDuration = '0ms';
+        progressBar.style.width = '0%';
+        void progressBar.offsetWidth;
+        if (paused) return;
+        progressBar.classList.add('is-animating');
+        progressBar.style.transitionDuration = `${intervalMs}ms`;
+        progressBar.style.width = '100%';
+      }
+
+      function render() {
+        const current = images[index];
+        restartProgress();
+
+        const incoming = imgs[1 - active];
+        const outgoing = imgs[active];
+        if (!incoming || !outgoing) return;
+
+        incoming.src = current.src;
+        incoming.width = current.width;
+        incoming.height = current.height;
+        incoming.alt = current.caption;
+
+        const show = () => {
+          incoming.classList.remove('is-hidden');
+          incoming.removeAttribute('aria-hidden');
+          outgoing.classList.add('is-hidden');
+          outgoing.setAttribute('aria-hidden', 'true');
+          active = 1 - active;
+          if (captionText) captionText.textContent = current.caption;
+          if (counter) counter.textContent = `${index + 1} / ${images.length}`;
+        };
+        incoming.decode ? incoming.decode().then(show, show) : show();
+      }
+
+      function goTo(i) {
+        index = ((i % images.length) + images.length) % images.length;
+        render();
+      }
+
+      function next() {
+        goTo(index + 1);
+      }
+      function prev() {
+        goTo(index - 1);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        timer = window.setInterval(next, intervalMs);
+      }
+      function stopAutoplay() {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+      }
+
+      function pause() {
+        paused = true;
+        stopAutoplay();
+        if (progressBar) progressBar.classList.remove('is-animating');
+      }
+      function resume() {
+        if (!paused) return;
+        paused = false;
+        restartProgress();
+        startAutoplay();
+      }
+
+      nextBtn?.addEventListener('click', () => {
+        next();
+        startAutoplay();
+      });
+      prevBtn?.addEventListener('click', () => {
+        prev();
+        startAutoplay();
+      });
+
+      el.addEventListener('mouseenter', pause);
+      el.addEventListener('mouseleave', resume);
+      el.addEventListener('focusin', pause);
+      el.addEventListener('focusout', (e) => {
+        if (!el.contains(e.relatedTarget)) resume();
+      });
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (!paused) startAutoplay();
+            } else {
+              stopAutoplay();
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+
+      restartProgress();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGalleries);
+  initGalleries();
+</script>

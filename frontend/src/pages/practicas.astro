@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Faq from '../components/Faq.astro';
+import { Image } from 'astro:assets';
+import heroImg from '../assets/renta/especializados/capacitacion/capacitacion-01.jpg';
+
+const FAQ_ITEMS = [
+  {
+    question: '¿Qué carreras pueden hacer prácticas profesionales en GR Cárdenas Construcciones?',
+    answer:
+      'Estudiantes de ingeniería civil, mecánica, eléctrica, industrial o petrolera, seguridad e higiene, topografía y arquitectura, de nivel superior o técnico superior universitario.',
+  },
+  {
+    question: '¿Aceptan servicio social además de prácticas profesionales?',
+    answer:
+      'Sí. El programa aplica tanto para prácticas profesionales como para servicio social, y las horas se ajustan al requerimiento de tu institución educativa.',
+  },
+  {
+    question: '¿Qué documentos necesito para postular?',
+    answer:
+      'Carta de presentación de tu escuela, kardex o comprobante de estudios, identificación oficial, CURP y tu disponibilidad de horario.',
+  },
+  {
+    question: '¿Cómo es el proceso para iniciar las prácticas?',
+    answer:
+      'Cuatro pasos: envías tu solicitud por WhatsApp o correo, tenemos una entrevista, formalizamos la carta de aceptación y el convenio con tu institución, y recibes inducción SSPA para integrarte al equipo en obra.',
+  },
+  {
+    question: '¿Entregan documentación para liberar las prácticas ante mi escuela?',
+    answer:
+      'Sí. Emitimos carta de aceptación, damos seguimiento durante el programa y entregamos la liberación ante tu institución educativa.',
+  },
+];
+
+const CARRERAS = [
+  'Ingeniería Civil',
+  'Ingeniería Mecánica',
+  'Ingeniería Eléctrica',
+  'Ing. Industrial / Petrolera',
+  'Seguridad e Higiene',
+  'Topografía / Arquitectura',
+];
+
+const OFRECEMOS = [
+  { title: 'Obra real, no escritorio', text: 'Participación en proyectos activos de obra civil, mecánica e infraestructura energética junto a las cuadrillas.' },
+  { title: 'Mentoría técnica', text: 'Acompañamiento directo de ingenieros y supervisores con trayectoria en campo.' },
+  { title: 'Cultura SSPA', text: 'Inducción y capacitación DC-3 en seguridad, salud ocupacional y protección ambiental.' },
+  { title: 'Documentación oficial', text: 'Cartas de aceptación, seguimiento y liberación ante tu institución educativa.' },
+];
+
+const PASOS = [
+  { title: 'Envía tu solicitud', text: 'Escríbenos por WhatsApp o correo con tu carrera, semestre e institución.' },
+  { title: 'Entrevista', text: 'Conversamos sobre tus objetivos, disponibilidad y el área que mejor te conviene.' },
+  { title: 'Alta y convenio', text: 'Formalizamos la carta de aceptación y el convenio con tu institución.' },
+  { title: 'Inducción y arranque', text: 'Capacitación SSPA e integración al equipo para comenzar en obra.' },
+];
+---
+
+<Layout
+  title="Prácticas profesionales | GR Cárdenas Construcciones — para universitarios"
+  description="Programa de prácticas profesionales y servicio social de GR Cárdenas Construcciones para estudiantes de ingeniería civil, mecánica, eléctrica e industrial. Experiencia en obra real, mentoría técnica, capacitación DC-3 y liberación ante tu institución en Veracruz."
+>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow eyebrow--dark">Formación · Universitarios</div>
+        <h1 class="h-display">
+          Prácticas
+          <br />
+          profesionales
+        </h1>
+        <p class="lede">
+          Un programa para que estudiantes de ingeniería y carreras técnicas vivan la obra real:
+          infraestructura energética, obra civil y mecánica, con mentoría, seguridad y
+          responsabilidad desde el primer día.
+        </p>
+        <div class="hero-actions">
+          <a href="#postular" class="btn btn-light">
+            Cómo postular
+          </a>
+          <a href="/contacto" class="btn btn-outline-light">
+            Contáctanos
+          </a>
+        </div>
+        <Image src={heroImg} alt="Capacitación de personal en seguridad e higiene" width={1000} class="page-hero-img" />
+      </div>
+    </section>
+
+    {/* PARA QUIÉN */}
+    <section class="section container section-pad">
+      <div class="two-col">
+        <div class="sticky-col">
+          <div class="eyebrow">Para quién</div>
+          <h2 class="h-section" style={{ fontSize: 'clamp(1.9rem,4vw,3rem)' }}>
+            Carreras que buscamos
+          </h2>
+          <p class="lede text-muted" style={{ maxWidth: '42ch', fontSize: '1.02rem' }}>
+            Dirigido a estudiantes de nivel superior y técnico superior universitario que cursen
+            o hayan concluido su plan de estudios y requieran acreditar prácticas profesionales
+            o servicio social.
+          </p>
+        </div>
+        <div class="grid-bordered" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))' }}>
+          {CARRERAS.map((c) => (
+            <div class="grid-cell" style={{ minHeight: 120, display: 'flex', alignItems: 'flex-end' }}>
+              <span class="grid-cell-title" style={{ fontSize: '1.15rem', marginBottom: 0, lineHeight: 1.1 }}>
+                {c}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* QUÉ OFRECEMOS */}
+    <section class="section section--dark">
+      <div class="container section-pad">
+        <div class="eyebrow eyebrow--dark">Qué ofrecemos</div>
+        <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', maxWidth: '22ch' }}>
+          Una práctica que sí cuenta como experiencia
+        </h2>
+        <div class="grid-bordered grid-bordered--dark">
+          {OFRECEMOS.map((item, i) => (
+            <div class="grid-cell">
+              <div class="grid-cell-num">{String(i + 1).padStart(2, '0')}</div>
+              <div class="grid-cell-title">{item.title}</div>
+              <p class="grid-cell-text">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CÓMO POSTULAR */}
+    <section id="postular" class="section container section-pad" style={{ scrollMarginTop: 90 }}>
+      <div class="eyebrow">Cómo postular</div>
+      <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', fontSize: 'clamp(1.9rem,4.4vw,3.4rem)' }}>
+        Cuatro pasos
+      </h2>
+      <div class="grid-bordered">
+        {PASOS.map((p, i) => (
+          <div class="grid-cell">
+            <div class="grid-cell-num" style={{ fontSize: 'clamp(2.4rem,4vw,3.2rem)', lineHeight: 0.9, opacity: 1 }}>
+              {String(i + 1).padStart(2, '0')}
+            </div>
+            <div class="grid-cell-title" style={{ fontSize: '1.1rem' }}>{p.title}</div>
+            <p class="grid-cell-text" style={{ fontSize: '.92rem' }}>{p.text}</p>
+          </div>
+        ))}
+      </div>
+      <div class="doc-note">
+        <div class="doc-note-label">Documentos que te pediremos</div>
+        <p style={{ margin: 0, fontSize: '.98rem', lineHeight: 1.6, color: 'rgba(0,0,0,.75)' }}>
+          Carta de presentación de tu escuela · kardex o comprobante de estudios · identificación
+          oficial · CURP · disponibilidad de horario. La cantidad de horas se ajusta al
+          requerimiento de tu institución.
+        </p>
+      </div>
+    </section>
+
+    <Faq title="Preguntas frecuentes sobre prácticas profesionales" items={FAQ_ITEMS} />
+
+    {/* CTA */}
+    <section class="section section--dark">
+      <div class="container section-pad-sm cta-banner">
+        <h2 class="cta-title" style={{ maxWidth: '22ch' }}>Postula a tus prácticas con nosotros</h2>
+        <a
+          href="https://wa.me/2291863819?text=Hola%2C%20soy%20estudiante%20y%20me%20interesa%20realizar%20mis%20pr%C3%A1cticas%20profesionales%20con%20ustedes."
+          target="_blank"
+          rel="noopener"
+          class="btn btn-light"
+        >
+          Postular por WhatsApp <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

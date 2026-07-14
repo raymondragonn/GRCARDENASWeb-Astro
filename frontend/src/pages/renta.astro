@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Faq from '../components/Faq.astro';
+import Gallery from '../components/Gallery.astro';
+import { getImage, Image } from 'astro:assets';
+import { sortByFilename } from '../utils/gallery';
+import heroImg from '../assets/renta/renta-fletes-transporte-maquinaria-01.jpg';
+
+const FAQ_ITEMS = [
+  {
+    question: '¿Qué maquinaria pesada tienen disponible para renta?',
+    answer:
+      'Camión de volteo, excavadora, retroexcavadora, pipa de agua, titán y grúa Hiab, con mantenimiento al día y, cuando se requiere, personal acreditado para su manejo.',
+  },
+  {
+    question: '¿Qué servicios especializados ofrecen además de la renta de maquinaria?',
+    answer:
+      'Sand blast, fletes, renta de máquinas de soldar y generadores, mantenimiento de maquinaria pesada y de unidades ligeras, pruebas hidrostáticas y torqueo, capacitación DC-5 y levantamiento topográfico.',
+  },
+  {
+    question: '¿Cómo solicito una cotización de renta de maquinaria?',
+    answer:
+      'Escríbenos por WhatsApp o a través del formulario de contacto con el equipo que necesitas, la ubicación y el tiempo estimado de uso, y te respondemos con la disponibilidad y condiciones.',
+  },
+];
+
+const MAQUINARIA = [
+  { id: 'volteo', title: 'Camión de volteo', text: 'Acarreo de materiales pétreos, producto de excavación y escombro dentro y fuera de obra.' },
+  { id: 'excavadora', title: 'Excavadora', text: 'Excavaciones masivas, movimiento de tierras, cortes y conformación de terrenos.' },
+  { id: 'retroexcavadora', title: 'Retroexcavadora', text: 'Excavación de zanjas, carga de material y trabajos versátiles en espacios reducidos.' },
+  { id: 'pipa-agua', title: 'Pipa de agua', text: 'Suministro de agua en obra, riego para compactación y control de polvos.' },
+  { id: 'titan', title: 'Titán', text: 'Transporte de maquinaria pesada y carga de gran tonelaje entre frentes y sitios de obra.' },
+  { id: 'grua-hiab', title: 'Grúa Hiab', text: 'Carga, descarga y maniobras de equipos y materiales con brazo hidráulico articulado.' },
+];
+
+// Cada máquina/servicio tiene su carpeta en assets/renta/{maquinaria,especializados}/<id>/;
+// las fotos que se agreguen ahí aparecen automáticamente en su galería.
+const rentaPhotoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/renta/{maquinaria,especializados}/*/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+async function buildRentaGallery(kind: string, id: string, caption: string) {
+  const entries = sortByFilename(
+    Object.entries(rentaPhotoModules)
+      .filter(([path]) => path.includes(`/${kind}/${id}/`))
+      .map(([path, mod]) => ({ path, mod }))
+  );
+  return Promise.all(
+    entries.map(async ({ mod }) => {
+      const optimized = await getImage({ src: mod.default, width: 1000, format: 'webp', quality: 78 });
+      return {
+        src: optimized.src,
+        width: optimized.attributes.width as number,
+        height: optimized.attributes.height as number,
+        caption,
+      };
+    })
+  );
+}
+
+const MAQUINARIA_GALLERIES: Record<string, Awaited<ReturnType<typeof buildRentaGallery>>> = {};
+for (const m of MAQUINARIA) {
+  MAQUINARIA_GALLERIES[m.id] = await buildRentaGallery('maquinaria', m.id, m.title);
+}
+
+
+const ESPECIALIZADOS = [
+  { id: 'sandblast', title: 'Sand Blast', text: 'Limpieza abrasiva para remover óxido, pintura, corrosión e impurezas y preparar superficies metálicas para recubrimiento o mantenimiento.' },
+  { id: 'fletes', title: 'Fletes', text: 'Traslado de materiales, equipos, maquinaria y herramientas; apoyo logístico para obras y proyectos industriales.' },
+  { id: 'soldar-generadores-era', title: 'Renta de máquinas de soldar, generadores y ERA', text: 'Equipos para soldadura, generación de energía y actividades que requieren equipos de respiración autónoma o seguridad industrial.' },
+  { id: 'mantenimiento-maquinaria-pesada', title: 'Mantenimiento de maquinaria pesada', text: 'Servicio preventivo y correctivo para conservar el funcionamiento, reducir fallas y prolongar la vida útil de los equipos.' },
+  { id: 'mantenimiento-unidades-ligeras', title: 'Mantenimiento de unidades ligeras', text: 'Revisión, diagnóstico y mantenimiento de vehículos y unidades de apoyo para operación, supervisión y traslado.' },
+  { id: 'pruebas-hidrostaticas-torqueo', title: 'Pruebas hidrostáticas y torqueo', text: 'Verificación de hermeticidad, resistencia y presión en líneas y equipos; torqueo controlado en uniones bridadas.' },
+  { id: 'capacitacion', title: 'Capacitación a empresas y personal', text: 'Capacitación en seguridad e higiene por personal autorizado DC-5, con constancia y formato DC-3 ante la STPS.' },
+  { id: 'topografia', title: 'Levantamiento topográfico', text: 'Medición y análisis de terrenos para trazos, niveles, deslindes, volumetrías y planeación de obra.' },
+];
+
+const ESPECIALIZADOS_GALLERIES: Record<string, Awaited<ReturnType<typeof buildRentaGallery>>> = {};
+for (const e of ESPECIALIZADOS) {
+  ESPECIALIZADOS_GALLERIES[e.id] = await buildRentaGallery('especializados', e.id, e.title);
+}
+---
+
+<Layout
+  title="Renta de maquinaria y servicios especializados | GR Cárdenas Construcciones"
+  description="Renta de maquinaria pesada en Veracruz: volteo, excavadora, retroexcavadora, pipa de agua, titán y hiab. Además sandblast, fletes, pruebas hidrostáticas, mantenimiento de equipo, capacitación DC-5 y levantamiento topográfico."
+>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow eyebrow--dark">Equipo y apoyo en obra</div>
+        <h1 class="h-display" style={{ fontSize: 'clamp(2.6rem,8.5vw,6.6rem)' }}>
+          Renta y servicios
+          <br />
+          especializados
+        </h1>
+        <p class="lede">
+          Flotilla propia de maquinaria pesada y un conjunto de servicios especializados para
+          respaldar cada etapa de tu obra, con personal acreditado y equipos en óptimas
+          condiciones.
+        </p>
+        <Image src={heroImg} alt="Transporte de maquinaria pesada de GR Cárdenas Construcciones" width={1000} class="page-hero-img" />
+      </div>
+    </section>
+
+    {/* RENTA DE MAQUINARIA */}
+    <section id="maquinaria" class="container section-pad-sm two-col">
+      <div class="sticky-col">
+        <div class="eyebrow">Renta de maquinaria pesada</div>
+        <h2 class="h-section" style={{ margin: '10px 0 18px', fontSize: 'clamp(1.9rem,4.2vw,3.2rem)' }}>
+          Maquinaria lista
+          <br />
+          para operar
+        </h2>
+        <p class="lede" style={{ margin: '0 0 26px', maxWidth: '44ch' }}>
+          Ponemos a disposición nuestra flotilla propia de maquinaria pesada para movimiento de
+          tierra, carga, acarreo y maniobras en obra. Cada equipo se entrega en condiciones
+          óptimas de operación, con mantenimiento al día y, cuando se requiere, personal
+          acreditado para su manejo, garantizando disponibilidad, seguridad y respuesta
+          inmediata en campo.
+        </p>
+        <a
+          href="https://wa.me/2291863819?text=Hola%2C%20me%20interesa%20cotizar%20renta%20de%20maquinaria%20pesada."
+          target="_blank"
+          rel="noopener"
+          class="btn btn-dark"
+        >
+          Cotizar renta por WhatsApp <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <ul class="service-detail-list">
+        {MAQUINARIA.map((m, i) => (
+          <li class="service-detail-num-item service-detail-item">
+            <span>{String(i + 1).padStart(2, '0')}</span>
+            <div style={{ flex: 1 }}>
+              <div class="service-detail-title" style={{ fontSize: '1.35rem' }}>{m.title}</div>
+              <p class="service-detail-text">{m.text}</p>
+              {MAQUINARIA_GALLERIES[m.id].length > 0 && (
+                <div style={{ marginTop: '14px' }}>
+                  <Gallery images={MAQUINARIA_GALLERIES[m.id]} aspectRatio="16/9" minimal arrows={false} />
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* SERVICIOS ESPECIALIZADOS */}
+    <section id="especializados" class="section section--dark">
+      <div class="container section-pad">
+        <div class="eyebrow eyebrow--dark">Servicios especializados</div>
+        <h2 class="h-section-lg" style={{ marginBottom: 'clamp(2rem,4vw,3rem)', maxWidth: '24ch' }}>
+          Apoyo integral para tu operación
+        </h2>
+        <div>
+          {ESPECIALIZADOS.map((item, i) => (
+            <div
+              class="two-col"
+              style={{
+                padding: 'clamp(2.2rem,4vw,3.4rem) 0',
+                borderTop: i > 0 ? '1px solid rgba(255,255,255,0.25)' : 'none',
+                alignItems: 'center',
+              }}
+            >
+              <div style={i % 2 ? { order: 2 } : undefined}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,4vw,3rem)', lineHeight: 0.9, opacity: 0.35 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <h3 class="h-section" style={{ margin: '10px 0 14px', fontSize: 'clamp(1.5rem,3vw,2.2rem)' }}>
+                  {item.title}
+                </h3>
+                <p class="lede" style={{ margin: '0 0 22px', maxWidth: '48ch', opacity: 0.75 }}>{item.text}</p>
+                <a
+                  href={`https://wa.me/2291863819?text=${encodeURIComponent(`Hola, me gustaría cotizar el servicio de ${item.title}.`)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-light btn-sm"
+                >
+                  Cotizar <span aria-hidden="true">→</span>
+                </a>
+              </div>
+              <div style={i % 2 ? { order: 1 } : undefined}>
+                {ESPECIALIZADOS_GALLERIES[item.id].length > 0 ? (
+                  <Gallery images={ESPECIALIZADOS_GALLERIES[item.id]} dark aspectRatio="16/9" minimal arrows={false} />
+                ) : (
+                  <div class="photo-placeholder photo-placeholder--dark" style={{ aspectRatio: '16/9' }}>
+                    <span class="photo-tag photo-tag--dark">{`Foto · ${item.title}`}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Faq title="Preguntas frecuentes sobre renta y servicios especializados" items={FAQ_ITEMS} />
+
+    {/* CTA */}
+    <section class="section">
+      <div class="container section-pad-sm cta-banner">
+        <h2 class="cta-title">Cotiza renta de maquinaria o un servicio especializado</h2>
+        <a
+          href="https://wa.me/2291863819?text=Hola%2C%20me%20interesa%20cotizar%20renta%20de%20maquinaria."
+          target="_blank"
+          rel="noopener"
+          class="btn btn-dark"
+        >
+          Cotizar por WhatsApp <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

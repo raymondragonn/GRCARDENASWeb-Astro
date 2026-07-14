@@ -1,0 +1,333 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Faq from '../components/Faq.astro';
+import Gallery from '../components/Gallery.astro';
+import { getImage, Image } from 'astro:assets';
+import { captionFromFilename, sortByFilename } from '../utils/gallery';
+import heroImg from '../assets/servicios/obra-mecanica/obra-mecanica-linea-conduccion-01.jpg';
+import maqExcavadora from '../assets/renta/maquinaria/excavadora/excavadora-01.jpg';
+import maqRetro from '../assets/renta/maquinaria/retroexcavadora/retroexcavadora-01.jpg';
+import maqTitan from '../assets/renta/maquinaria/titan/titan-01.jpg';
+import maqHiab from '../assets/renta/maquinaria/grua-hiab/grua-hiab-01.jpg';
+
+const MAQUINARIA_EJEMPLOS = [
+  { img: maqExcavadora, title: 'Excavadora' },
+  { img: maqRetro, title: 'Retroexcavadora' },
+  { img: maqTitan, title: 'Titán' },
+  { img: maqHiab, title: 'Grúa Hiab' },
+];
+
+const servicePhotoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/servicios/*/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+async function buildServiceGallery(categoryId: string) {
+  const entries = sortByFilename(
+    Object.entries(servicePhotoModules)
+      .filter(([path]) => path.includes(`/servicios/${categoryId}/`))
+      .map(([path, mod]) => ({ path, mod }))
+  );
+
+  return Promise.all(
+    entries.map(async ({ path, mod }) => {
+      const filename = path.split('/').pop() ?? '';
+      const optimized = await getImage({ src: mod.default, width: 1400, format: 'webp', quality: 78 });
+      return {
+        src: optimized.src,
+        width: optimized.attributes.width as number,
+        height: optimized.attributes.height as number,
+        caption: captionFromFilename(filename, categoryId),
+      };
+    })
+  );
+}
+
+const FAQ_ITEMS = [
+  {
+    question: '¿GR Cárdenas ejecuta proyectos para PEMEX y CFE?',
+    answer:
+      'Sí. Contamos con más de 30 años de experiencia y 39 contratos ejecutados desde 1995 para PEMEX, CFE y contratistas EPC del sector energético, además de proyectos para el sector privado.',
+  },
+  {
+    question: '¿Qué incluye el servicio de obra mecánica e industrial?',
+    answer:
+      'Amarres a pozos de gas de alta presión, líneas de conducción de hidrocarburos, baterías de separación, trampas de diablos, tanques y recipientes a presión, pruebas hidrostáticas y soldadura especializada certificada.',
+  },
+  {
+    question: '¿Realizan protección anticorrosiva para tuberías y tanques?',
+    answer:
+      'Sí, mediante sandblast (chorro abrasivo), aplicación de recubrimientos industriales y sistemas de protección catódica para ductos y tanques enterrados o sumergidos.',
+  },
+];
+
+const SERVICE_SECTIONS = [
+  {
+    id: 'obra-civil',
+    num: '01',
+    navLabel: 'Obra Civil',
+    title: ['Obra Civil'],
+    intro:
+      'Proyectos orientados al sector energético, industrial y de infraestructura, garantizando calidad constructiva y cumplimiento de especificaciones técnicas.',
+    photoTag: 'Foto · Terracerías / cimentación',
+    dark: false,
+    items: [
+      { title: 'Terracerías y movimiento de tierras', text: 'Preparación de sitios, cortes, rellenos, nivelación y estabilización de suelos.' },
+      { title: 'Cimentaciones especializadas', text: 'Superficiales y profundas para equipos críticos, estructuras metálicas y edificaciones.' },
+      { title: 'Pavimentos y plataformas industriales', text: 'Losas de concreto reforzado de alta resistencia, plataformas operativas y bases de soporte.' },
+      { title: 'Urbanización y obra civil', text: 'Vialidades internas, guarniciones, banquetas, drenajes pluviales y obras complementarias.' },
+      { title: 'Mantenimiento y acabados industriales', text: 'Pintura industrial, protección de estructuras y chapeo manual o mecanizado.' },
+    ],
+  },
+  {
+    id: 'obra-mecanica',
+    num: '02',
+    navLabel: 'Obra Mecánica',
+    title: ['Obra Mecánica', 'e Industrial'],
+    intro:
+      'Trabajos especializados para el sector petrolero, gasero e industrial, con soldadura certificada y control de calidad en líneas y equipos.',
+    photoTag: 'Foto · Ductos / soldadura',
+    dark: true,
+    reversed: true,
+    numbered: [
+      'Amarres a pozos de gas de alta presión',
+      'Cabezales de recolección de aceites',
+      'Líneas de conducción de hidrocarburos',
+      'Baterías de separación',
+      'Trampas de diablos (pigging)',
+      'Tanques y recipientes a presión',
+      'Pruebas hidrostáticas',
+      'Soldadura especializada certificada',
+      'Soportería industrial',
+    ],
+  },
+  {
+    id: 'infra-metalica',
+    num: '03',
+    navLabel: 'Infra. Metálica',
+    title: ['Infraestructura Metálica'],
+    intro: 'Herrería e infraestructura metálica para seguridad y protección en instalaciones industriales.',
+    photoTag: 'Foto · Cercados / rejillas',
+    dark: false,
+    items: [
+      { title: 'Herrería e infraestructura metálica', text: 'Estructuras metálicas para seguridad y protección de instalaciones.' },
+      { title: 'Cercados y accesos', text: 'Cercas de alta resistencia y puertas metálicas industriales.' },
+      { title: 'Sistemas de protección', text: 'Barandales y guardacuerpos.' },
+      { title: 'Pisos y rejillas industriales tipo Irving', text: 'Rejillas y pisos industriales de alta resistencia.' },
+      { title: 'Guardaganados', text: 'Para accesos vehiculares en instalaciones y caminos.' },
+    ],
+  },
+  {
+    id: 'obra-electrica',
+    num: '04',
+    navLabel: 'Obra Eléctrica',
+    title: ['Obra Eléctrica'],
+    intro: 'Electrificación e instalaciones eléctricas industriales para plantas e instalaciones energéticas.',
+    photoTag: 'Foto · Tableros / líneas',
+    dark: true,
+    reversed: true,
+    items: [
+      { title: 'Electrificación en alta, media y baja tensión', text: 'Para instalaciones industriales y energéticas.' },
+      { title: 'Instalaciones eléctricas industriales', text: 'Cableado, tableros de control, canalizaciones, iluminación y sistemas de distribución.' },
+    ],
+  },
+  {
+    id: 'anticorrosiva',
+    num: '05',
+    navLabel: 'Anticorrosiva',
+    title: ['Protección Anticorrosiva'],
+    intro: 'Preparación de superficies y recubrimientos para prolongar la vida útil de tuberías, tanques y estructuras metálicas.',
+    photoTag: 'Foto · Sandblast / recubrimiento',
+    dark: false,
+    items: [
+      { title: 'Sandblast (chorro abrasivo)', text: 'Limpieza de superficies metálicas para eliminar óxido y contaminantes y preparar recubrimientos.' },
+      { title: 'Aplicación de recubrimientos industriales', text: 'Pintura y recubrimientos anticorrosivos para tuberías, tanques y estructuras.' },
+      { title: 'Protección catódica', text: 'Sistemas para prevenir corrosión en ductos y tanques enterrados o sumergidos.' },
+    ],
+  },
+  {
+    id: 'ingenieria',
+    num: '06',
+    navLabel: 'Ingeniería',
+    title: ['Ingeniería y Proyectos'],
+    intro: 'Diseño, fabricación y montaje de estructuras y edificaciones industriales, de bodegas a grandes claros.',
+    photoTag: 'Foto · Estructura / montaje',
+    dark: true,
+    reversed: true,
+    items: [
+      { title: 'Bodegas industriales', text: 'Para almacenamiento, logística y procesos.' },
+      { title: 'Estructuras metálicas', text: 'Fabricación y montaje de estructuras industriales y comerciales.' },
+      { title: 'Cobertizos industriales', text: 'Estructura ligera, mediana o pesada según proyecto.' },
+      { title: 'Sistemas estructurales especializados', text: 'Armaduras tipo arco, warre y fink para grandes claros.' },
+      { title: 'Montajes a gran altura', text: 'Con equipos especializados para montajes a cualquier altura.' },
+    ],
+  },
+];
+
+const SERVICE_GALLERIES: Record<string, Awaited<ReturnType<typeof buildServiceGallery>>> = {};
+for (const s of SERVICE_SECTIONS) {
+  SERVICE_GALLERIES[s.id] = await buildServiceGallery(s.id);
+}
+---
+
+<Layout
+  title="Servicios | Obra civil, obra mecánica e infraestructura — GR Cárdenas"
+  description="Servicios de GR Cárdenas Construcciones: obra civil, obra mecánica e industrial, infraestructura metálica, obra eléctrica, protección anticorrosiva e ingeniería y proyectos para el sector energético e industrial en Veracruz."
+>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow eyebrow--dark">Qué hacemos</div>
+        <h1 class="h-display">Servicios</h1>
+        <p class="lede">
+          Seis líneas de servicio orientadas al sector energético, industrial y de
+          infraestructura, con calidad constructiva, seguridad operativa y cumplimiento de
+          especificaciones técnicas.
+        </p>
+        <nav aria-label="Índice de servicios" class="service-anchor-nav">
+          {SERVICE_SECTIONS.map((s) => (
+            <a href={`#${s.id}`}>
+              <span>{s.num}</span> {s.navLabel}
+            </a>
+          ))}
+        </nav>
+        <Image src={heroImg} alt="Línea de conducción de hidrocarburos construida por GR Cárdenas" width={1000} class="page-hero-img" />
+      </div>
+    </section>
+
+    {SERVICE_SECTIONS.map((s) => (
+      <section
+        id={s.id}
+        class={`section${s.dark ? ' section--dark' : ''}`}
+        style={{ scrollMarginTop: 90 }}
+      >
+        <div
+          class="container section-pad-sm two-col"
+          style={s.reversed ? { gridAutoFlow: 'dense' } : undefined}
+        >
+          <div style={s.reversed ? { order: 2 } : undefined}>
+            <div class="h-section" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem,6vw,5rem)', lineHeight: 0.9 }}>
+              {s.num}
+            </div>
+            <h2 class="h-section" style={{ margin: '10px 0 18px', fontSize: 'clamp(1.9rem,4vw,3rem)' }}>
+              {s.title.map((line, i) => (
+                <Fragment>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))}
+            </h2>
+            <p class="lede" style={{ margin: '0 0 26px', maxWidth: '44ch' }}>
+              {s.intro}
+            </p>
+            {SERVICE_GALLERIES[s.id].length > 0 ? (
+              <Gallery images={SERVICE_GALLERIES[s.id]} dark={s.dark} aspectRatio="4/3" minimal arrows={false} intervalMs={3000} />
+            ) : (
+              <div class={`photo-placeholder${s.dark ? ' photo-placeholder--dark' : ''}`} style={{ aspectRatio: '4/3' }}>
+                <span class={`photo-tag${s.dark ? ' photo-tag--dark' : ''}`}>{s.photoTag}</span>
+              </div>
+            )}
+          </div>
+
+          <div style={s.reversed ? { order: 1 } : undefined}>
+            {s.items && (
+              <ul class="service-detail-list">
+                {s.items.map((item) => (
+                  <li class="service-detail-item">
+                    <div class="service-detail-title">{item.title}</div>
+                    <p class="service-detail-text">{item.text}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {s.numbered && (
+              <ul class="service-detail-list">
+                {s.numbered.map((text, i) => (
+                  <li class="service-detail-num-item service-detail-item">
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                    {text}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <a
+              href={`https://wa.me/2291863819?text=${encodeURIComponent(`Hola, me gustaría solicitar una cotización de ${s.title.join(' ')}.`)}`}
+              target="_blank"
+              rel="noopener"
+              class={`btn btn-sm${s.dark ? ' btn-light' : ' btn-dark'}`}
+              style={{ marginTop: 'clamp(1.6rem,3vw,2.2rem)' }}
+            >
+              Cotizar por WhatsApp <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    {/* CTA */}
+    <section class="section">
+      <div class="container section-pad-sm">
+        <div class="cta-banner" style={{ marginBottom: 'clamp(1.8rem,3vw,2.6rem)' }}>
+          <div>
+            <h2 class="cta-title" style={{ maxWidth: '20ch' }}>¿Necesitas también renta de maquinaria?</h2>
+            <p class="text-muted" style={{ margin: '14px 0 0', fontSize: '1.02rem', maxWidth: '48ch' }}>
+              Consulta nuestros servicios especializados y flotilla de equipo pesado.
+            </p>
+          </div>
+          <a href="/renta#especializados" class="btn btn-dark">
+            Renta y especializados <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="maq-examples">
+          {MAQUINARIA_EJEMPLOS.map((m) => (
+            <a href="/renta#maquinaria" class="maq-card" aria-label={`Ver renta de ${m.title}`}>
+              <Image src={m.img} alt={m.title} width={700} />
+              <span>{m.title} <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Faq title="Preguntas frecuentes sobre nuestros servicios" items={FAQ_ITEMS} />
+  </main>
+</Layout>
+
+<style>
+  .maq-examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .maq-card {
+    border: 2px solid var(--black);
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    color: var(--black);
+    transition: all 0.1s linear;
+  }
+  .maq-card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    border-bottom: 2px solid var(--black);
+  }
+  .maq-card > span {
+    padding: 12px 14px;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .maq-card:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+</style>
