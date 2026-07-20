@@ -1002,6 +1002,14 @@ select.form-input {
   color: rgba(255, 255, 255, 0.5);
 }
 
+.footer-copyright a {
+  color: inherit;
+}
+
+.footer-copyright a:hover {
+  opacity: 0.55;
+}
+
 .social-row {
   display: flex;
   align-items: center;
