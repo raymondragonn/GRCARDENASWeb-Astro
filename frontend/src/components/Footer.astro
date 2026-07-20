@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import WhatsAppIcon from './WhatsAppIcon.astro';
+import logo from '../assets/marca/logo-gr-cardenas.png';
 ---
 
 <footer class="site-footer">
@@ -7,7 +9,7 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
     <div class="footer-grid">
       <div class="footer-brand-block">
         <div class="footer-brand-row">
-          <span class="footer-brand-mark">GR</span>
+          <Image src={logo} alt="" width={40} height={40} class="footer-brand-mark" />
           <span class="footer-brand-name">
             <strong>GR Cardenas</strong>
             <span>Construcciones</span>
