@@ -102,31 +102,6 @@ img {
   top: 8px;
 }
 
-/* ---------- Eyebrow label ---------- */
-
-.eyebrow {
-  font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.78rem;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.eyebrow::before {
-  content: '';
-  width: 34px;
-  height: 2px;
-  background: currentColor;
-  display: inline-block;
-}
-
-.eyebrow--dark {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 /* ---------- Headings ---------- */
 
 .h-display {
