@@ -887,13 +887,7 @@ select.form-input {
 .footer-brand-mark {
   width: 40px;
   height: 40px;
-  background: var(--white);
-  color: var(--black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
+  object-fit: contain;
   flex-shrink: 0;
 }
 
