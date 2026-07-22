@@ -200,11 +200,8 @@ for (const s of SERVICE_SECTIONS) {
         class={`section${s.dark ? ' section--dark' : ''}`}
         style={{ scrollMarginTop: 90 }}
       >
-        <div
-          class="container section-pad-sm two-col"
-          style={s.reversed ? { gridAutoFlow: 'dense' } : undefined}
-        >
-          <div style={s.reversed ? { order: 2 } : undefined}>
+        <div class={`container section-pad-sm two-col${s.reversed ? ' two-col--reversed' : ''}`}>
+          <div class="two-col-media">
             <div class="h-section" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem,6vw,5rem)', lineHeight: 0.9 }}>
               {s.num}
             </div>
@@ -228,7 +225,7 @@ for (const s of SERVICE_SECTIONS) {
             )}
           </div>
 
-          <div style={s.reversed ? { order: 1 } : undefined}>
+          <div class="two-col-copy">
             {s.items && (
               <ul class="service-detail-list">
                 {s.items.map((item) => (

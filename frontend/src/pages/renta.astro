@@ -155,14 +155,14 @@ for (const e of ESPECIALIZADOS) {
         <div>
           {ESPECIALIZADOS.map((item, i) => (
             <div
-              class="two-col"
+              class={`two-col${i % 2 ? ' two-col--reversed' : ''}`}
               style={{
                 padding: 'clamp(2.2rem,4vw,3.4rem) 0',
                 borderTop: i > 0 ? '1px solid rgba(255,255,255,0.25)' : 'none',
                 alignItems: 'center',
               }}
             >
-              <div style={i % 2 ? { order: 2 } : undefined}>
+              <div class="two-col-copy">
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,4vw,3rem)', lineHeight: 0.9, opacity: 0.35 }}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
@@ -179,7 +179,7 @@ for (const e of ESPECIALIZADOS) {
                   Cotizar <span aria-hidden="true">→</span>
                 </a>
               </div>
-              <div style={i % 2 ? { order: 1 } : undefined}>
+              <div class="two-col-media">
                 {ESPECIALIZADOS_GALLERIES[item.id].length > 0 ? (
                   <Gallery images={ESPECIALIZADOS_GALLERIES[item.id]} dark aspectRatio="16/9" minimal arrows={false} />
                 ) : (
