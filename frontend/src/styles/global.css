@@ -1504,7 +1504,7 @@ select.form-input {
   margin-bottom: 10px;
 }
 
-/* ---------- Hero · hover background photos ---------- */
+/* ---------- Hero · carrusel de fotos de fondo ---------- */
 
 .hero-inner {
   z-index: 2;
@@ -1531,15 +1531,12 @@ select.form-input {
   transition: opacity 1.3s ease;
 }
 
-.hero-bg-item.is-visible {
+.hero-bg-item--1 {
   opacity: 1;
 }
 
-/* Móvil/táctil: sin hover, la primera foto del hero se muestra por defecto */
-@media (hover: none), (max-width: 767px) {
-  .hero-bg-item--1 {
-    opacity: 1;
-  }
+.hero-bg-item.is-visible {
+  opacity: 1;
 }
 
 .hero-bg-item img {

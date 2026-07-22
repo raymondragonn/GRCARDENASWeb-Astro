@@ -80,7 +80,7 @@ const SERVICES = [
 >
   <main id="main">
     {/* 1 · HERO */}
-    <section aria-label="Portada" class="hero-section" data-hero-hover tabindex="0">
+    <section aria-label="Portada" class="hero-section" data-hero-carousel>
       <div class="hero-bg" aria-hidden="true">
         {HERO_PHOTOS.map((p, i) => (
           <div class={`hero-bg-item hero-bg-item--${i + 1}`}>
@@ -107,37 +107,20 @@ const SERVICES = [
     </section>
 
     <script>
-      const hero = document.querySelector('[data-hero-hover]');
+      const hero = document.querySelector('[data-hero-carousel]');
       if (hero) {
         const items = Array.from(hero.querySelectorAll('.hero-bg-item'));
         let index = 0;
-        let timer: ReturnType<typeof setInterval> | null = null;
 
         function show(i: number) {
           items.forEach((el, n) => el.classList.toggle('is-visible', n === i));
         }
 
-        function start() {
-          index = 0;
+        show(index);
+        window.setInterval(() => {
+          index = (index + 1) % items.length;
           show(index);
-          timer = window.setInterval(() => {
-            index = (index + 1) % items.length;
-            show(index);
-          }, 4500);
-        }
-
-        function stop() {
-          if (timer) window.clearInterval(timer);
-          timer = null;
-          items.forEach((el) => el.classList.remove('is-visible'));
-        }
-
-        hero.addEventListener('mouseenter', start);
-        hero.addEventListener('mouseleave', stop);
-        hero.addEventListener('focusin', start);
-        hero.addEventListener('focusout', (e) => {
-          if (!hero.contains(e.relatedTarget as Node)) stop();
-        });
+        }, 4500);
       }
     </script>
 
