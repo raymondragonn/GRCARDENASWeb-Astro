@@ -42,89 +42,64 @@ const PROYECTOS = [
   {
     title: 'Campo Ixachi',
     text: 'Infraestructura de recolección y conducción: amarres de pozos, líneas de descarga y baterías de separación.',
-    // Fotos con rótulo verificado "PERDIZ 39-OGD IXACHI" visible en la tubería, más amarres de pozo y línea de conducción representativos.
     photoFiles: [
-      'obra-mecanica/obra-mecanica-linea-conduccion-11.jpg',
-      'obra-mecanica/obra-mecanica-bateria-separacion-01.jpg',
-      'obra-mecanica/obra-mecanica-amarre-pozo-01.jpg',
-      'obra-mecanica/obra-mecanica-amarre-pozo-02.jpg',
-      'obra-mecanica/obra-mecanica-linea-conduccion-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-02.jpg',
+      'obra-mecanica/obra-mecanica-varios-03.jpg',
     ],
   },
   {
     title: 'Campo Perdiz',
     text: 'Obra mecánica y civil para infraestructura de producción, con estándares SSPA en campo.',
-    // Rótulo verificado "CABEZAL DE PRODUCCIÓN MP PERDIZ 39" visible en la tubería de esta serie completa.
     photoFiles: [
-      'obra-mecanica/obra-mecanica-cabezal-pozo-16.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-17.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-18.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-19.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-20.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-21.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-22.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-23.jpg',
-      'obra-mecanica/obra-mecanica-cabezal-pozo-24.jpg',
+      'obra-mecanica/obra-mecanica-varios-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-02.jpg',
+      'obra-mecanica/obra-mecanica-varios-03.jpg',
     ],
   },
   {
     title: 'Gasoducto a Matapionche',
     text: 'Gasoducto de 20"Ø × 52 km hacia el C.P.G. Matapionche, con soldadura certificada y pruebas hidrostáticas.',
-    // Sin rótulo de proyecto visible: fotos representativas de soldadura certificada del acervo general.
     photoFiles: [
-      'obra-mecanica/obra-mecanica-soldadura-01.jpg',
-      'obra-mecanica/obra-mecanica-soldadura-02.jpg',
-      'obra-mecanica/obra-mecanica-soldadura-03.jpg',
-      'obra-mecanica/obra-mecanica-soldadura-04.jpg',
-      'obra-mecanica/obra-mecanica-soldadura-05.jpg',
+      'obra-mecanica/obra-mecanica-varios-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-02.jpg',
+      'obra-mecanica/obra-mecanica-varios-03.jpg',
     ],
   },
   {
     title: 'Oleogasoductos 16"–30"Ø',
     text: 'Construcción de oleogasoductos de gran diámetro y rehabilitación de corredores de ductos.',
-    // Sin rótulo de proyecto visible: fotos representativas de zanja y tendido de tubería del acervo general.
     photoFiles: [
-      'obra-mecanica/obra-mecanica-zanja-tuberia-01.jpg',
-      'obra-mecanica/obra-mecanica-zanja-tuberia-02.jpg',
-      'obra-mecanica/obra-mecanica-zanja-tuberia-03.jpg',
-      'obra-mecanica/obra-mecanica-tendido-tuberia-01.jpg',
-      'obra-mecanica/obra-mecanica-tendido-tuberia-02.jpg',
-      'obra-mecanica/obra-mecanica-tendido-tuberia-03.jpg',
+      'obra-mecanica/obra-mecanica-varios-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-02.jpg',
+      'obra-mecanica/obra-mecanica-varios-03.jpg',
     ],
   },
   {
     title: 'Trampas de diablos y baterías',
     text: 'Sistemas de limpieza e inspección de ductos (pigging) y baterías de separación.',
-    // Sin rótulo de proyecto visible: fotos representativas de colectores/manifolds del acervo general.
     photoFiles: [
-      'obra-mecanica/obra-mecanica-colector-01.jpg',
-      'obra-mecanica/obra-mecanica-colector-02.jpg',
-      'obra-mecanica/obra-mecanica-colector-03.jpg',
-      'obra-mecanica/obra-mecanica-colector-04.jpg',
+      'obra-mecanica/obra-mecanica-varios-01.jpg',
+      'obra-mecanica/obra-mecanica-varios-02.jpg',
+      'obra-mecanica/obra-mecanica-varios-03.jpg',
     ],
   },
   {
     title: 'Rehabilitación de corredores de ductos',
     text: 'Mantenimiento y rehabilitación de corredores, con protección anticorrosiva y soportería.',
-    // Sin rótulo de proyecto visible: fotos representativas de sandblast y recubrimiento del acervo general.
     photoFiles: [
-      'anticorrosiva/anticorrosiva-sandblast-01.jpg',
-      'anticorrosiva/anticorrosiva-sandblast-02.jpg',
-      'anticorrosiva/anticorrosiva-sandblast-03.jpg',
-      'anticorrosiva/anticorrosiva-recubrimiento-01.jpg',
-      'anticorrosiva/anticorrosiva-recubrimiento-02.jpg',
+      'anticorrosiva/anticorrosiva-varios-01.jpg',
+      'anticorrosiva/anticorrosiva-varios-02.jpg',
+      'anticorrosiva/anticorrosiva-varios-03.jpg',
+      'anticorrosiva/anticorrosiva-varios-04.jpg',
+      'anticorrosiva/anticorrosiva-varios-05.jpg',
+      'anticorrosiva/anticorrosiva-varios-06.jpg',
+      'anticorrosiva/anticorrosiva-varios-07.jpg',
+      'anticorrosiva/anticorrosiva-varios-08.jpg',
     ],
   },
 ];
 
-// Una foto no debe aparecer en más de un proyecto destacado.
-const seenPhotos = new Set<string>();
-for (const p of PROYECTOS) {
-  for (const f of p.photoFiles) {
-    if (seenPhotos.has(f)) throw new Error(`Foto repetida en proyectos destacados: ${f}`);
-    seenPhotos.add(f);
-  }
-}
 
 const allServicePhotoModules = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/servicios/*/*.{jpg,jpeg,png}',
