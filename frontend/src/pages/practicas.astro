@@ -1,8 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Faq from '../components/Faq.astro';
-import { Image } from 'astro:assets';
+import Gallery from '../components/Gallery.astro';
+import { getImage, Image } from 'astro:assets';
+import { captionFromFilename, sortByFilename } from '../utils/gallery';
 import heroImg from '../assets/renta/especializados/capacitacion/capacitacion-01.jpg';
+
+const practicasPhotoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/practicas/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+const PRACTICAS_GALLERY = await Promise.all(
+  sortByFilename(Object.entries(practicasPhotoModules).map(([path, mod]) => ({ path, mod }))).map(
+    async ({ path, mod }) => {
+      const filename = path.split('/').pop() ?? '';
+      const optimized = await getImage({ src: mod.default, width: 1400, format: 'webp', quality: 78 });
+      return {
+        src: optimized.src,
+        width: optimized.attributes.width as number,
+        height: optimized.attributes.height as number,
+        caption: captionFromFilename(filename, 'practicas'),
+      };
+    }
+  )
+);
 
 const FAQ_ITEMS = [
   {
@@ -131,6 +153,16 @@ const PASOS = [
         </div>
       </div>
     </section>
+
+    {/* GALERÍA */}
+    {PRACTICAS_GALLERY.length > 0 && (
+      <section class="section container section-pad-sm">
+        <h2 class="h-section" style={{ marginBottom: '20px', fontSize: 'clamp(1.9rem,4vw,3rem)' }}>
+          Practicantes en obra
+        </h2>
+        <Gallery images={PRACTICAS_GALLERY} aspectRatio="16/9" />
+      </section>
+    )}
 
     {/* CÓMO POSTULAR */}
     <section id="postular" class="section container section-pad" style={{ scrollMarginTop: 90 }}>
